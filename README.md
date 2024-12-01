@@ -1,0 +1,1 @@
+Repo containing all of my solutions for [Advent of Code 2024](https://adventofcode.com/2024)!
