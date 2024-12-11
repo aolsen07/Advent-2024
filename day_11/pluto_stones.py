@@ -25,7 +25,7 @@ def split_stone(stone, depth):
         left, right = split_even_stones(stone)
         return split_stone(left, depth-1) + split_stone(right, depth-1)
     
-def part1():
+def brute_force():
     NUM_BLINKS = 25
     MULT = 2024
     
@@ -55,7 +55,7 @@ def part1():
             print("Blink {} END: {}".format(b, len(stones)))
 
             
-def part2(depth):
+def recursive_sol(depth):
     with open('input.txt', 'r') as f:
         stones = [int(stone) for stone in f.readline().strip().split()]
         result = 0
@@ -65,5 +65,5 @@ def part2(depth):
         return result
 
 if __name__ == '__main__':
-    print(part2(25))
-    print(part2(75))
+    print(recursive_sol(25))
+    print(recursive_sol(75))
