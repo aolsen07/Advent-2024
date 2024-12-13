@@ -29,20 +29,37 @@ if __name__ == '__main__':
                         dy = mate_y - y 
                         dx = mate_x - x
                         
-                        ant1 = (y + dy+dy, x + dx+dx)
-                        ant2 = (mate_y - dy-dy, mate_x -dx - dx)
+                        # didn't need this slope reduction snippet
                         
-                        if (0 <= ant1[1] < m) and (0 <= ant1[0] < n) and not antinode_map[ant1[0]][ant1[1]]:
-                            RESULT += 1
-                            antinode_map[ant1[0]][ant1[1]] = True
+                        # regardless of distance means thinking about slope, so reduce units if the slope allows it
+                        #if dy % dx == 0:
+                            #dy = int(dy / dx)
+                            #dx = int(dx / dx)
                         
-                        if (0 <= ant2[1] < m) and (0 <= ant2[0] < n) and not antinode_map[ant2[0]][ant2[1]]:
-                            RESULT += 1
-                            antinode_map[ant2[0]][ant2[1]] = True
-                                
+                        # calculate initial changes
+                        ant1 = (y + dy, x + dx)
+                        ant2 = (mate_y - dy, mate_x -dx)
+                        
+                        # in each direction, mark possible locations along the line
+                        # if vs while for one antenna or continuous until o.o.b.
+                        while (0 <= ant1[1] < m) and (0 <= ant1[0] < n):
+                            if not antinode_map[ant1[0]][ant1[1]]:
+                                RESULT += 1
+                                antinode_map[ant1[0]][ant1[1]] = True
+                            ant1 = (ant1[0] + dy, ant1[1] + dx)
+
+                        while (0 <= ant2[1] < m) and (0 <= ant2[0] < n):
+                            if not antinode_map[ant2[0]][ant2[1]]:
+                                RESULT += 1
+                                antinode_map[ant2[0]][ant2[1]] = True
+                            ant2 = (ant2[0] - dy, ant2[1] - dx)
+
+                    # save antenna for future search                                
                     antenna_pos[c].append((y,x))
         
+        # debug printout to view all antinode positions
         for j, r in enumerate(antinode_map):
             print(''.join(('#' if c else lines[j][i] for i, c in enumerate(r))))
+        # lookups to include the chars for all the antennas would be more complex
             
         print(RESULT)
